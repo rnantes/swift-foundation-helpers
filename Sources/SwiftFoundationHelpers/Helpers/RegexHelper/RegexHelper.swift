@@ -12,7 +12,7 @@ struct RegexHelper {
     public let intWithPlusOrMinusPattern = "(-|\\+)?\\d+"
     public let doubleWithPlusOrMinusPattern = "(-|\\+)?\\d+(\\.\\d+)?"
 
-    func matchRanges(for regexPattern: String, inString inputString: String) -> [Range<String.Index>] {
+    public func matchRanges(for regexPattern: String, inString inputString: String) -> [Range<String.Index>] {
         guard let regex = try? NSRegularExpression(pattern: regexPattern, options: [.caseInsensitive]) else {
             //print("invalid regex")
             return []
@@ -29,7 +29,7 @@ struct RegexHelper {
         return matchRanges
     }
 
-    func matches(for regexPattern: String, inString inputString: String) -> [String] {
+    public func matches(for regexPattern: String, inString inputString: String) -> [String] {
         let matchRanges = self.matchRanges(for: regexPattern, inString: inputString)
 
         var matchingStrings = [String]()
@@ -40,7 +40,7 @@ struct RegexHelper {
         return matchingStrings
     }
 
-    func firstMatchRange(for regexPattern: String, inString inputString: String) -> Range<String.Index>? {
+    public func firstMatchRange(for regexPattern: String, inString inputString: String) -> Range<String.Index>? {
         guard let regex = try? NSRegularExpression(pattern: regexPattern, options: [.caseInsensitive]) else {
             //print("Invalid Regex Pattern: \(regexPattern)")
             return nil
@@ -58,7 +58,7 @@ struct RegexHelper {
         }
     }
 
-    func firstMatch(for regexPattern: String, inString inputString: String) -> String? {
+    public func firstMatch(for regexPattern: String, inString inputString: String) -> String? {
         let firstMatchRange = self.firstMatchRange(for: regexPattern, inString: inputString)
 
         if let range = firstMatchRange {
@@ -71,7 +71,7 @@ struct RegexHelper {
         }
     }
 
-    func hasMatch(for regexPattern: String, inString inputString: String) -> Bool {
+    public func hasMatch(for regexPattern: String, inString inputString: String) -> Bool {
         let firstMatchRange = self.firstMatchRange(for: regexPattern, inString: inputString)
 
         if firstMatchRange != nil {
@@ -82,7 +82,7 @@ struct RegexHelper {
         }
     }
 
-    func replaceFirstMatch(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String {
+    public func replaceFirstMatch(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String {
         let firstMatchRange = self.firstMatchRange(for: regexPattern, inString: inputString)
 
         if let range = firstMatchRange {
@@ -94,7 +94,7 @@ struct RegexHelper {
         }
     }
 
-    func replaceMatches(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String? {
+    public func replaceMatches(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String? {
         guard let regex = try? NSRegularExpression(pattern: regexPattern, options: []) else {
             return inputString
         }
@@ -103,7 +103,7 @@ struct RegexHelper {
         return regex.stringByReplacingMatches(in: inputString, options: [], range: range, withTemplate: replacementString)
     }
 
-    func allInts(inString inputString: String) -> [Int] {
+    public func allInts(inString inputString: String) -> [Int] {
         // (-|\+)? -> -, + or nothing
         // \d+ -> at least one digit
         let pattern = "(-|\\+)?\\d+"
@@ -115,7 +115,7 @@ struct RegexHelper {
         return matchesAsInts
     }
 
-    func firstInt(inString inputString: String) -> Int? {
+    public func firstInt(inString inputString: String) -> Int? {
         // (-|\+)? -> -, + or nothing
         // \d+ -> at least one digit
         let pattern = "(-|\\+)?\\d+"
@@ -126,7 +126,7 @@ struct RegexHelper {
         }
     }
 
-    func allDoubles(inString inputString: String) -> [Double] {
+    public func allDoubles(inString inputString: String) -> [Double] {
         // (-|\+)? -> -, + or nothing
         // \d+ -> at least one digit
         // (\.\d+)? -> . and digits or nothing
@@ -140,7 +140,7 @@ struct RegexHelper {
         return matchesAsDoubles
     }
 
-    func firstDouble(inString inputString: String) -> Double? {
+    public func firstDouble(inString inputString: String) -> Double? {
         // (-|\+)? -> -, + or nothing
         // \d+ -> at least one digit
         // (\.\d+)? -> . and digits or nothing
@@ -152,7 +152,7 @@ struct RegexHelper {
         }
     }
 
-    func getTextBefore(firstInstanceOf pattern: String, inString inputString: String) -> String {
+    public func getTextBefore(firstInstanceOf pattern: String, inString inputString: String) -> String {
         if let firstMatchRange = firstMatchRange(for: pattern, inString: inputString) {
             if firstMatchRange.lowerBound > inputString.startIndex {
                 return String(inputString[inputString.startIndex..<firstMatchRange.lowerBound])
@@ -165,7 +165,7 @@ struct RegexHelper {
         return inputString
     }
 
-    func getTextAfter(firstInstanceOf pattern: String, inString inputString: String) -> String {
+    public func getTextAfter(firstInstanceOf pattern: String, inString inputString: String) -> String {
         if let firstMatch = firstMatchRange(for: pattern, inString: inputString) {
             let textAfterStartIndex = firstMatch.upperBound
             if textAfterStartIndex < inputString.endIndex {
@@ -179,7 +179,7 @@ struct RegexHelper {
         return inputString
     }
 
-    func getTextAfter(lastInstanceOf pattern: String, inString inputString: String) -> String? {
+    public func getTextAfter(lastInstanceOf pattern: String, inString inputString: String) -> String? {
         guard let matchRange = matchRanges(for: pattern, inString: inputString).last else {
             return nil
         }

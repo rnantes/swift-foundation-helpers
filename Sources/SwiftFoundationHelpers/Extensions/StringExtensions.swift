@@ -1,23 +1,11 @@
 //
-//  StringHelper.swift
-//  MapleWeatherForecastUpdater
+//  File.swift
+//  
 //
-//  Created by Reid Nantes on 2018-12-15.
+//  Created by Reid Nantes on 2019-11-13.
 //
 
 import Foundation
-
-struct StringHelper {
-    func containsAtLeastOneKeyword(inputString: String, keywords: [String]) -> Bool {
-        for keyword in keywords {
-            if inputString.contains(keyword) {
-                return true
-            }
-        }
-
-        return false
-    }
-}
 
 extension String {
     func startsCaseInsensitive(with: String) -> Bool {

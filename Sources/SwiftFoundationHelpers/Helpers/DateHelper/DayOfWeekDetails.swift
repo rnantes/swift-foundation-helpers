@@ -8,10 +8,10 @@
 import Foundation
 
 public struct DayOfWeekDetails {
-    var name: String
-    var number: Int
+    public var name: String
+    public var number: Int
 
-    init(name: String, number: Int) {
+    public init(name: String, number: Int) {
         self.name = name
         self.number = number
     }
