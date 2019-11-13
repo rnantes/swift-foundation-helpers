@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RegexHelper {
+public struct RegexHelper {
 
     public let intWithPlusOrMinusPattern = "(-|\\+)?\\d+"
     public let doubleWithPlusOrMinusPattern = "(-|\\+)?\\d+(\\.\\d+)?"

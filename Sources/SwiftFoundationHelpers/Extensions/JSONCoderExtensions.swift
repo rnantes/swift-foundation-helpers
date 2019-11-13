@@ -8,14 +8,14 @@
 import Foundation
 
 public extension JSONDecoder {
-    public func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy customDateFormat: CustomDateFormat) throws -> T where T: Decodable {
+    func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy customDateFormat: CustomDateFormat) throws -> T where T: Decodable {
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
         self.dateDecodingStrategy = .formatted(dateFormatter)
 
         return try self.decode(type, from: data)
     }
 
-    public func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy dateFormat: String) throws -> T where T: Decodable {
+    func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy dateFormat: String) throws -> T where T: Decodable {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
         self.dateDecodingStrategy = .formatted(dateFormatter)

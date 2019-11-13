@@ -8,7 +8,7 @@
 import Foundation
 
 public extension FileManager {
-    public func createDirectoryIfItDoesNotExits(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey: Any]? = nil) throws {
+    func createDirectoryIfItDoesNotExits(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey: Any]? = nil) throws {
         if self.fileExists(atPath: url.path) {
             return
         } else {
@@ -16,11 +16,11 @@ public extension FileManager {
         }
     }
 
-    public func filesOfDirectory(at url: URL) throws -> [URL] {
+    func filesOfDirectory(at url: URL) throws -> [URL] {
         return try self.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
     }
 
-    public func filesOfDirectorySortedByDate(_ url: URL) throws -> [URL] {
+    func filesOfDirectorySortedByDate(_ url: URL) throws -> [URL] {
         let fileURLs = try self.contentsOfDirectory(at: url,
                                                     includingPropertiesForKeys: [.isRegularFileKey, .addedToDirectoryDateKey],
                                                     options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
@@ -39,7 +39,7 @@ public extension FileManager {
         })
     }
 
-    public func lastAddedFileToDirectoy(_ directory: URL) throws -> URL? {
+    func lastAddedFileToDirectoy(_ directory: URL) throws -> URL? {
         return try filesOfDirectorySortedByDate(directory).first
     }
 

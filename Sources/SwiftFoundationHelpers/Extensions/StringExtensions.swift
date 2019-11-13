@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     func startsCaseInsensitive(with: String) -> Bool {
         return self.lowercased().starts(with: with)
     }
