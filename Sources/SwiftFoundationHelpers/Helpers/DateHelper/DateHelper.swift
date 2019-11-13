@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct DateHelper {
-    let daysOfWeek: [DayOfWeek: DayOfWeekDetails] = [
+public struct DateHelper {
+    public let daysOfWeek: [DayOfWeek: DayOfWeekDetails] = [
         DayOfWeek.sunday: DayOfWeekDetails.init(name: "Sunday", number: 0),
         DayOfWeek.monday: DayOfWeekDetails.init(name: "Monday", number: 1),
         DayOfWeek.tuesday: DayOfWeekDetails.init(name: "Tuesday", number: 2),
@@ -16,20 +16,20 @@ struct DateHelper {
         DayOfWeek.thursday: DayOfWeekDetails.init(name: "Thursday", number: 4),
         DayOfWeek.friday: DayOfWeekDetails.init(name: "Friday", number: 5),
         DayOfWeek.saturday: DayOfWeekDetails.init(name: "Saturday", number: 6)
-        ]
+    ]
 
-    func dayOfWeekToString(_ dayOfWeek: DayOfWeek) -> String {
+    public func dayOfWeekToString(_ dayOfWeek: DayOfWeek) -> String {
         return daysOfWeek[dayOfWeek]!.name
     }
 
-    func isoYearMonthDay(from date: Date) -> String {
+    public func isoYearMonthDay(from date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
 
         return dateFormatter.string(from: date)
     }
 
-    func date(isoDateTimeString: String, timeZone: TimeZone) -> Date? {
+    public func date(isoDateTimeString: String, timeZone: TimeZone) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = timeZone
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
@@ -37,7 +37,7 @@ struct DateHelper {
         return dateFormatter.date(from: isoDateTimeString)
     }
 
-    func date(isoDateTimeString: String) -> Date? {
+    public func date(isoDateTimeString: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 
@@ -46,7 +46,7 @@ struct DateHelper {
 
     // isoDateString: yyyy-MM-dd
     // isoTimeString: HH:mm
-    func date(isoYearMonthDay: String, isoHourMinute: String, timeZone: TimeZone) -> Date? {
+    public func date(isoYearMonthDay: String, isoHourMinute: String, timeZone: TimeZone) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = timeZone
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
@@ -55,7 +55,7 @@ struct DateHelper {
         return dateFormatter.date(from: dateString)
     }
 
-    func isoDateString(from inputDate: Date) -> String {
+    public func isoDateString(from inputDate: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmZ"
 
@@ -63,7 +63,7 @@ struct DateHelper {
     }
 
     // ex est to utc -> 2018-12-26T13:00:00-0500 to 2018-12-26T18:00:00
-    func convertToUTC(localDate: Date) -> Date? {
+    public func convertToUTC(localDate: Date) -> Date? {
         let localDateString = isoDateString(from: localDate)
 
         let dateFormatter = DateFormatter()

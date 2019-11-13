@@ -8,7 +8,7 @@
 import Foundation
 
 public extension FileManager {
-    func createDirectoryIfItDoesNotExits(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey: Any]? = nil) throws {
+    public func createDirectoryIfItDoesNotExits(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey: Any]? = nil) throws {
         if self.fileExists(atPath: url.path) {
             return
         } else {
@@ -16,11 +16,11 @@ public extension FileManager {
         }
     }
 
-    func filesOfDirectory(at url: URL) throws -> [URL] {
+    public func filesOfDirectory(at url: URL) throws -> [URL] {
         return try self.contentsOfDirectory(at: url, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
     }
 
-    func filesOfDirectorySortedByDate(_ url: URL) throws -> [URL] {
+    public func filesOfDirectorySortedByDate(_ url: URL) throws -> [URL] {
         let fileURLs = try self.contentsOfDirectory(at: url,
                                                     includingPropertiesForKeys: [.isRegularFileKey, .addedToDirectoryDateKey],
                                                     options: [.skipsHiddenFiles, .skipsPackageDescendants, .skipsSubdirectoryDescendants])
@@ -39,14 +39,14 @@ public extension FileManager {
         })
     }
 
-    func lastAddedFileToDirectoy(_ directory: URL) throws -> URL? {
+    public func lastAddedFileToDirectoy(_ directory: URL) throws -> URL? {
         return try filesOfDirectorySortedByDate(directory).first
     }
 
 }
 
 extension URL {
-    var addedToDirectoryDate: Date? {
+    public var addedToDirectoryDate: Date? {
         do {
             return try self.resourceValues(forKeys: [.addedToDirectoryDateKey]).addedToDirectoryDate
         } catch {
@@ -54,7 +54,7 @@ extension URL {
         }
     }
 
-    var createdToDirectoryDate: Date? {
+    public var createdToDirectoryDate: Date? {
         do {
             return try self.resourceValues(forKeys: [.creationDateKey]).creationDate
         } catch {

@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Data {
-    func printAsString() {
+    public func printAsString() {
         guard let dataAsString = self.toString() else {
             print("ERROR: Could not convert data to string")
             return
@@ -17,7 +17,7 @@ public extension Data {
         print(dataAsString)
     }
 
-    func toString(encoding: String.Encoding = String.Encoding.utf8) -> String? {
+    public func toString(encoding: String.Encoding = String.Encoding.utf8) -> String? {
         return String.init(data: self, encoding: encoding)
     }
 }
