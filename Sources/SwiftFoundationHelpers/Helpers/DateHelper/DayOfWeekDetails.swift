@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DayOfWeekDetails {
+public struct DayOfWeekDetails {
     var name: String
     var number: Int
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Data {
+public extension Data {
     func printAsString() {
         guard let dataAsString = self.toString() else {
             print("ERROR: Could not convert data to string")

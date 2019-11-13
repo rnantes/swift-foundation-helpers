@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension JSONDecoder {
+public extension JSONDecoder {
     func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy customDateFormat: CustomDateFormat) throws -> T where T: Decodable {
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
         self.dateDecodingStrategy = .formatted(dateFormatter)
