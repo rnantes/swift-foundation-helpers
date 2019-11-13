@@ -12,6 +12,8 @@ public struct RegexHelper {
     public let intWithPlusOrMinusPattern = "(-|\\+)?\\d+"
     public let doubleWithPlusOrMinusPattern = "(-|\\+)?\\d+(\\.\\d+)?"
 
+    public init() {}
+
     public func matchRanges(for regexPattern: String, inString inputString: String) -> [Range<String.Index>] {
         guard let regex = try? NSRegularExpression(pattern: regexPattern, options: [.caseInsensitive]) else {
             //print("invalid regex")

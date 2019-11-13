@@ -18,6 +18,8 @@ public struct DateHelper {
         DayOfWeek.saturday: DayOfWeekDetails.init(name: "Saturday", number: 6)
     ]
 
+    public init() {}
+
     public func dayOfWeekToString(_ dayOfWeek: DayOfWeek) -> String {
         return daysOfWeek[dayOfWeek]!.name
     }
