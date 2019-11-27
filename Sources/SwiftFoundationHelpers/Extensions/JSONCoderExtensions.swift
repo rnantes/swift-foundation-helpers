@@ -22,6 +22,14 @@ public extension JSONDecoder {
 
         return try self.decode(type, from: data)
     }
+
+    // synchronously decode from a file
+    func decodeFromFile<T>(_ type: T.Type, fromFile fileURL: URL, usingDateDecodingStrategy dateFormat: String) throws -> T where T: Decodable {
+        // open file
+        let fileData = try Data.init(contentsOf: fileURL)
+        // decode
+        return try self.decode(type, from: fileData)
+    }
 }
 
 extension JSONEncoder {
