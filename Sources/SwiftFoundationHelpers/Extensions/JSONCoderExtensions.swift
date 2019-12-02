@@ -32,6 +32,33 @@ public extension JSONDecoder {
     }
 }
 
+// custom key decoding strategies
+public extension JSONDecoder {
+    struct CustomKeyDecodingStrategies {
+        static func convertFromSnakeCaseWithCapitalizedID(_ keys: [CodingKey]) -> CodingKey {
+            let key = keys.last!.stringValue
+            var newKeyStringValue = key.camelCased(with: "_")
+            newKeyStringValue = newKeyStringValue.replaceSuffix(of: "Id", with: "ID")
+            return AnyKey(stringValue: newKeyStringValue)!
+        }
+    }
+
+    struct AnyKey: CodingKey {
+        public var stringValue: String
+        public var intValue: Int?
+
+        public init?(stringValue: String) {
+            self.stringValue = stringValue
+            self.intValue = nil
+        }
+
+        public init?(intValue: Int) {
+            self.stringValue = String(intValue)
+            self.intValue = intValue
+        }
+    }
+}
+
 extension JSONEncoder {
     public func encode<T>(_ value: T, usingDateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)

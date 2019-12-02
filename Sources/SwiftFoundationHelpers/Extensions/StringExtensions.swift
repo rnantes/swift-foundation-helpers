@@ -21,7 +21,7 @@ public extension String {
         return false
     }
 
-    // returns a new string with a replaced suffix if the suffix exists
+    /// returns a new string with a replaced suffix if the suffix exists
     func replaceSuffix(of suffix: String, with suffixToReplace: String) -> String {
         if self.hasSuffix(suffix) {
             let stringWithoutSuffix = self.dropLast(suffix.count)
@@ -31,7 +31,7 @@ public extension String {
         }
     }
 
-    // converts string to camelCased
+    /// converts string to camelCased
     func camelCased(with separator: Character) -> String {
         return self.lowercased()
             .split(separator: separator)
@@ -40,7 +40,7 @@ public extension String {
             .joined()
     }
 
-    // converts a camelCased string to snake_cased
+    /// converts a camelCased string to snake_cased
     func snakeCased() -> String {
         let acronymPattern = "([A-Z]+)([A-Z][a-z]|[0-9])"
         let normalPattern = "([a-z0-9])([A-Z])"
