@@ -21,4 +21,14 @@ public extension String {
         return false
     }
 
+    // returns a new string with a replaced suffix if the suffix exists
+    func replaceSuffix(of suffix: String, with suffixToReplace: String) -> String {
+        if self.hasSuffix(suffix) {
+            let stringWithoutSuffix = self.dropLast(suffix.count)
+            return stringWithoutSuffix.appending(suffixToReplace)
+        } else {
+            return String(self)
+        }
+    }
+
 }
