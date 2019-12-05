@@ -55,7 +55,7 @@ public extension String {
     }
 
     /// returns a new string in Title Case
-    func titlecased() -> String {
+    func titleCased() -> String {
         if self.count <= 1 {
             return self.uppercased()
         }
