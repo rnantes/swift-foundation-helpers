@@ -12,4 +12,10 @@ public extension Date {
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
         return dateFormatter.string(from: self)
     }
+
+    func toString(withFormat dateFormat: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        return dateFormatter.string(from: self)
+    }
 }
