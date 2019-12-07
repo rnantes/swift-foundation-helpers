@@ -96,7 +96,7 @@ public struct RegexHelper {
         }
     }
 
-    public func replaceMatches(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String? {
+    public func replaceMatches(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String {
         guard let regex = try? NSRegularExpression(pattern: regexPattern, options: []) else {
             return inputString
         }
