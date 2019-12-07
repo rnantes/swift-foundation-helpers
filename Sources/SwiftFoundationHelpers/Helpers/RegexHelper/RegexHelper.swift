@@ -96,6 +96,7 @@ public struct RegexHelper {
         }
     }
 
+    /// returns a new string by replacing matches for given pattern with given replacement string
     public func replaceMatches(for regexPattern: String, inString inputString: String, withString replacementString: String) -> String {
         guard let regex = try? NSRegularExpression(pattern: regexPattern, options: []) else {
             return inputString
