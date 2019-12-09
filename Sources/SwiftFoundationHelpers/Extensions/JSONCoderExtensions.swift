@@ -35,11 +35,32 @@ public extension JSONDecoder {
 // custom key decoding strategies
 public extension JSONDecoder {
     struct CustomKeyDecodingStrategies {
-        public static func convertFromSnakeCaseWithCapitalizedID(_ keys: [CodingKey]) -> CodingKey {
+        public static func convertKeys(_ keys: [CodingKey], customKeyMappings: [String: String]) -> CodingKey {
             let key = keys.last!.stringValue
-            var newKeyStringValue = key.camelCased(with: "_")
-            newKeyStringValue = newKeyStringValue.replaceSuffix(of: "Id", with: "ID")
+            var newKeyStringValue = key
+            if let customKeyMapped = customKeyMappings[key] {
+                newKeyStringValue = customKeyMapped
+            }
+
             return AnyKey(stringValue: newKeyStringValue)!
+        }
+
+        public static func convertKeys(_ keys: [CodingKey], customKeyMappings: [String: String], transform: (String) -> (String)) -> CodingKey {
+            let key = keys.last!.stringValue
+            var newKeyStringValue = key
+            if let customKeyMapped = customKeyMappings[key] {
+                newKeyStringValue = customKeyMapped
+            } else {
+                newKeyStringValue = transform(key)
+            }
+
+            return AnyKey(stringValue: newKeyStringValue)!
+        }
+
+        public static func convertFromSnakeCaseWithCapitalizedIDTransformation(_ inputString :String) -> String {
+            var newKeyStringValue = inputString.camelCased(with: "_")
+            newKeyStringValue = newKeyStringValue.replaceSuffix(of: "Id", with: "ID")
+            return newKeyStringValue
         }
     }
 
