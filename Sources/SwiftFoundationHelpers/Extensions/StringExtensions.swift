@@ -8,6 +8,10 @@
 import Foundation
 
 public extension String {
+    struct SpecialCharacters {
+        static let newline = "\n"
+    }
+
     func startsCaseInsensitive(with: String) -> Bool {
         return self.lowercased().starts(with: with)
     }
