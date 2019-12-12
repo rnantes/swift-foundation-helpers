@@ -9,7 +9,7 @@ import Foundation
 
 public extension String {
     struct SpecialCharacters {
-        static let newline = "\n"
+        public static let newline = "\n"
     }
 
     func startsCaseInsensitive(with: String) -> Bool {
