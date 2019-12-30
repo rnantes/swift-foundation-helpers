@@ -101,30 +101,7 @@ public extension JSONDecoder {
     }
 }
 
-extension JSONEncoder {
-    public func encode<T>(_ value: T, usingDateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
-        let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
-        self.dateEncodingStrategy = .formatted(dateFormatter)
-
-        if (isPrettyPrinted) {
-            self.outputFormatting = .prettyPrinted
-        }
-
-        return try self.encode(value)
-    }
-
-    public func encode<T>(_ value: T, usingDateEncodingStrategy dateFormat: String, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
-        self.dateEncodingStrategy = .formatted(dateFormatter)
-
-        if (isPrettyPrinted) {
-            self.outputFormatting = .prettyPrinted
-        }
-
-        return try self.encode(value)
-    }
-
+public extension JSONEncoder {
     /// initialize JSONEncoder with a dateEncodingStrategy and prettyPrint option
     convenience init(dateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) {
         self.init()
@@ -134,6 +111,29 @@ extension JSONEncoder {
         if isPrettyPrinted {
             self.outputFormatting = .prettyPrinted
         }
+    }
+    
+    func encode<T>(_ value: T, usingDateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
+        let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
+        self.dateEncodingStrategy = .formatted(dateFormatter)
+
+        if (isPrettyPrinted) {
+            self.outputFormatting = .prettyPrinted
+        }
+
+        return try self.encode(value)
+    }
+
+    func encode<T>(_ value: T, usingDateEncodingStrategy dateFormat: String, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        self.dateEncodingStrategy = .formatted(dateFormatter)
+
+        if (isPrettyPrinted) {
+            self.outputFormatting = .prettyPrinted
+        }
+
+        return try self.encode(value)
     }
 
     /// Encode  value to json and write to file
