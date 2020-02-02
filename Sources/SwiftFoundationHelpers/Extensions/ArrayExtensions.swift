@@ -14,3 +14,14 @@ public extension Array {
         }
     }
 }
+
+public extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        let set = Set(self.map { $0 })
+        return Array(set)
+    }
+
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
+    }
+}
