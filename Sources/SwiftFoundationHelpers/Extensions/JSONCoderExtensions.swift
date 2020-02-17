@@ -8,11 +8,37 @@
 import Foundation
 
 public extension JSONDecoder {
+    struct PublicOptions {
+        public let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy
+        public let keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy
+
+        init(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
+            self.dateDecodingStrategy = dateDecodingStrategy
+            self.keyDecodingStrategy = keyDecodingStrategy
+        }
+
+        init(dateDecodingStrategy: CustomDateFormat, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
+            self.dateDecodingStrategy = .formatted(dateDecodingStrategy.format())
+            self.keyDecodingStrategy = keyDecodingStrategy
+        }
+    }
+
+    convenience init(options: JSONDecoder.PublicOptions) {
+        self.init()
+        self.dateDecodingStrategy = options.dateDecodingStrategy
+        self.keyDecodingStrategy = options.keyDecodingStrategy
+    }
+
+
     /// initialize JSONEncoder with a dateEncodingStrategy and prettyPrint option
     convenience init(dateDecodingStrategy customDateFormat: CustomDateFormat) {
         self.init()
-        let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
-        self.dateDecodingStrategy = .formatted(dateFormatter)
+        self.dateDecodingStrategy = .formatted(customDateFormat.format())
+    }
+
+    static func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions) throws -> T where T: Decodable {
+        let decoder = JSONDecoder.init(options: options)
+        return try decoder.decode(type, from: data)
     }
 
     func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy customDateFormat: CustomDateFormat) throws -> T where T: Decodable {
