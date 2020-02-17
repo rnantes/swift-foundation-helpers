@@ -36,7 +36,12 @@ public extension JSONDecoder {
         self.dateDecodingStrategy = .formatted(customDateFormat.format())
     }
 
-    static func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions) throws -> T where T: Decodable {
+    func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions = .init()) throws -> T where T: Decodable {
+        let decoder = JSONDecoder.init(options: options)
+        return try decoder.decode(type, from: data)
+    }
+
+    static func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions = .init()) throws -> T where T: Decodable {
         let decoder = JSONDecoder.init(options: options)
         return try decoder.decode(type, from: data)
     }
@@ -56,12 +61,21 @@ public extension JSONDecoder {
         return try self.decode(type, from: data)
     }
 
-    /// Synchronously decode from a file
-    func decodeFromFile<T>(_ type: T.Type, fromFile fileURL: URL, usingDateDecodingStrategy customDateFormat: CustomDateFormat) throws -> T where T: Decodable {
+
+    /// reads json from file and decodes to value.
+    func decodeFromFile<T>(_ type: T.Type, options: JSONDecoder.PublicOptions = PublicOptions.init(), fileURL: URL, readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
         // open file
-        let fileData = try Data.init(contentsOf: fileURL)
+        let fileData = try Data.init(contentsOf: fileURL, options: readingOptions)
         // decode
-        return try self.decode(type, from: fileData, usingDateDecodingStrategy: customDateFormat)
+        return try self.decode(type, from: fileData, options: options)
+    }
+
+    /// reads json from file and decodes to value. If encoder is used more than once try using the non-static method.
+    static func decodeFromFile<T>(_ type: T.Type, options: JSONDecoder.PublicOptions = PublicOptions.init(), fileURL: URL, readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
+        // open file
+        let fileData = try Data.init(contentsOf: fileURL, options: readingOptions)
+        // decode
+        return try Self.decode(type, from: fileData, options: options)
     }
 }
 
@@ -128,7 +142,32 @@ public extension JSONDecoder {
 }
 
 public extension JSONEncoder {
+    struct PublicOptions {
+        public let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy
+        public let keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy
+        public let outputFormatting: JSONEncoder.OutputFormatting
+
+        public init(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .deferredToDate, keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys, outputFormatting: JSONEncoder.OutputFormatting = []) {
+            self.dateEncodingStrategy = dateEncodingStrategy
+            self.keyEncodingStrategy = keyEncodingStrategy
+            self.outputFormatting = outputFormatting
+        }
+
+        public init(formattedDateEncodingStrategy: CustomDateFormat, keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys, outputFormatting: JSONEncoder.OutputFormatting = []) {
+            let dateEncodingStrategy = JSONEncoder.DateEncodingStrategy.formatted(formattedDateEncodingStrategy.format())
+            self.init(dateEncodingStrategy: dateEncodingStrategy, keyEncodingStrategy: keyEncodingStrategy, outputFormatting: outputFormatting)
+        }
+    }
+
+
     /// initialize JSONEncoder with a dateEncodingStrategy and prettyPrint option
+    convenience init(options: JSONEncoder.PublicOptions) {
+        self.init()
+        self.dateEncodingStrategy = options.dateEncodingStrategy
+        self.keyEncodingStrategy = options.keyEncodingStrategy
+        self.outputFormatting = options.outputFormatting
+    }
+
     convenience init(dateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) {
         self.init()
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
@@ -162,13 +201,34 @@ public extension JSONEncoder {
         return try self.encode(value)
     }
 
+    /// Encodes value using `JSONEncoder.PublicOptions`
+    func encode<T>(_ value: T, options: JSONEncoder.PublicOptions = PublicOptions.init()) throws -> Data where T: Encodable {
+        let encoder = JSONEncoder.init(options: options)
+        return try encoder.encode(value)
+    }
+
+    /// Encodes value using `JSONEncoder.PublicOptions`. useful when encoder is used only once
+    static func encode<T>(_ value: T, options: JSONEncoder.PublicOptions = PublicOptions.init()) throws -> Data where T: Encodable {
+        let encoder = JSONEncoder.init(options: options)
+        return try encoder.encode(value)
+    }
+
     /// Encode  value to json and write to file
-    func encodeToFile<T>(_ value: T, fileURL: URL, options: Data.WritingOptions = []) throws where T: Encodable {
+    func encodeToFile<T>(_ value: T, options: JSONEncoder.PublicOptions = PublicOptions.init(), fileURL: URL, writingOptions: Data.WritingOptions = []) throws where T: Encodable {
         // encode
         let data = try self.encode(value)
 
         // write to file
-        try data.write(to: fileURL, options: options)
+        try data.write(to: fileURL, options: writingOptions)
+    }
+
+
+    /// Encode  value to json and write to file. If encoder is used more than once try using the non-static method.
+    static func encodeToFile<T>(_ value: T, options: JSONEncoder.PublicOptions = PublicOptions.init(), fileURL: URL, writingOptions: Data.WritingOptions = []) throws where T: Encodable {
+        // encode
+        let data = try Self.encode(value, options: options)
+        // write to file
+        try data.write(to: fileURL, options: writingOptions)
     }
 
 }
