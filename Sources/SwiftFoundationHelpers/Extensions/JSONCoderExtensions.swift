@@ -36,6 +36,7 @@ public extension JSONDecoder {
         self.dateDecodingStrategy = .formatted(customDateFormat.format())
     }
 
+    /// decode with public options
     func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions = .init()) throws -> T where T: Decodable {
         let decoder = JSONDecoder.init(options: options)
         return try decoder.decode(type, from: data)
@@ -153,8 +154,8 @@ public extension JSONEncoder {
             self.outputFormatting = outputFormatting
         }
 
-        public init(formattedDateEncodingStrategy: CustomDateFormat, keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys, outputFormatting: JSONEncoder.OutputFormatting = []) {
-            let dateEncodingStrategy = JSONEncoder.DateEncodingStrategy.formatted(formattedDateEncodingStrategy.format())
+        public init(dateEncodingStrategy: CustomDateFormat, keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys, outputFormatting: JSONEncoder.OutputFormatting = []) {
+            let dateEncodingStrategy = JSONEncoder.DateEncodingStrategy.formatted(dateEncodingStrategy.format())
             self.init(dateEncodingStrategy: dateEncodingStrategy, keyEncodingStrategy: keyEncodingStrategy, outputFormatting: outputFormatting)
         }
     }
