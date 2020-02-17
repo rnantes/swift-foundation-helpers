@@ -63,7 +63,7 @@ public extension JSONDecoder {
 
 
     /// reads json from file and decodes to value.
-    func decodeFromFile<T>(_ type: T.Type, options: JSONDecoder.PublicOptions = PublicOptions.init(), fileURL: URL, readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
+    func decodeFromFile<T>(_ type: T.Type, fileURL: URL, options: JSONDecoder.PublicOptions = PublicOptions.init(), readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
         // open file
         let fileData = try Data.init(contentsOf: fileURL, options: readingOptions)
         // decode
@@ -71,7 +71,7 @@ public extension JSONDecoder {
     }
 
     /// reads json from file and decodes to value. If encoder is used more than once try using the non-static method.
-    static func decodeFromFile<T>(_ type: T.Type, options: JSONDecoder.PublicOptions = PublicOptions.init(), fileURL: URL, readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
+    static func decodeFromFile<T>(_ type: T.Type, fileURL: URL, options: JSONDecoder.PublicOptions = PublicOptions.init(), readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
         // open file
         let fileData = try Data.init(contentsOf: fileURL, options: readingOptions)
         // decode
@@ -214,7 +214,7 @@ public extension JSONEncoder {
     }
 
     /// Encode  value to json and write to file
-    func encodeToFile<T>(_ value: T, options: JSONEncoder.PublicOptions = PublicOptions.init(), fileURL: URL, writingOptions: Data.WritingOptions = []) throws where T: Encodable {
+    func encodeToFile<T>(_ value: T, fileURL: URL, options: JSONEncoder.PublicOptions = PublicOptions.init(), writingOptions: Data.WritingOptions = []) throws where T: Encodable {
         // encode
         let data = try self.encode(value)
 
@@ -224,7 +224,7 @@ public extension JSONEncoder {
 
 
     /// Encode  value to json and write to file. If encoder is used more than once try using the non-static method.
-    static func encodeToFile<T>(_ value: T, options: JSONEncoder.PublicOptions = PublicOptions.init(), fileURL: URL, writingOptions: Data.WritingOptions = []) throws where T: Encodable {
+    static func encodeToFile<T>(_ value: T, fileURL: URL, options: JSONEncoder.PublicOptions = PublicOptions.init(), writingOptions: Data.WritingOptions = []) throws where T: Encodable {
         // encode
         let data = try Self.encode(value, options: options)
         // write to file
