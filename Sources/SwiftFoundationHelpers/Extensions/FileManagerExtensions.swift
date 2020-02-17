@@ -44,21 +44,3 @@ public extension FileManager {
     }
 
 }
-
-extension URL {
-    public var addedToDirectoryDate: Date? {
-        do {
-            return try self.resourceValues(forKeys: [.addedToDirectoryDateKey]).addedToDirectoryDate
-        } catch {
-            return nil
-        }
-    }
-
-    public var createdToDirectoryDate: Date? {
-        do {
-            return try self.resourceValues(forKeys: [.creationDateKey]).creationDate
-        } catch {
-            return nil
-        }
-    }
-}
