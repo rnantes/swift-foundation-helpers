@@ -12,12 +12,12 @@ public extension JSONDecoder {
         public let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy
         public let keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy
 
-        init(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
+        public init(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
             self.dateDecodingStrategy = dateDecodingStrategy
             self.keyDecodingStrategy = keyDecodingStrategy
         }
 
-        init(dateDecodingStrategy: CustomDateFormat, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
+        public init(dateDecodingStrategy: CustomDateFormat, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
             self.dateDecodingStrategy = .formatted(dateDecodingStrategy.format())
             self.keyDecodingStrategy = keyDecodingStrategy
         }
