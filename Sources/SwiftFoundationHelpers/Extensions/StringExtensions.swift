@@ -12,6 +12,14 @@ public extension String {
         public static let newline = "\n"
     }
 
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + self.lowercased().dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+
     func startsCaseInsensitive(with: String) -> Bool {
         return self.lowercased().starts(with: with)
     }
@@ -42,6 +50,11 @@ public extension String {
             .enumerated()
             .map { $0.offset > 0 ? $0.element.capitalized : $0.element.lowercased() }
             .joined()
+    }
+
+    /// converts string to PascalCase
+    func pascalCased(with separator: Character) -> String {
+        return self.camelCased(with: separator).capitalizingFirstLetter()
     }
 
     /// converts a camelCased string to snake_cased

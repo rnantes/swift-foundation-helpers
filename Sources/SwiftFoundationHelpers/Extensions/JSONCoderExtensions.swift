@@ -124,6 +124,12 @@ public extension JSONDecoder {
             newKeyStringValue = newKeyStringValue.replaceSuffix(of: "Id", with: "ID")
             return newKeyStringValue
         }
+
+        public static func snakeCaseToPascalCaseWithCapitalizedIDTransformation(_ inputString :String) -> String {
+            var newKeyStringValue = inputString.pascalCased(with: "_")
+            newKeyStringValue = newKeyStringValue.replaceSuffix(of: "Id", with: "ID")
+            return newKeyStringValue
+        }
     }
 
     struct AnyKey: CodingKey {
