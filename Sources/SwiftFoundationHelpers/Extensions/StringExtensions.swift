@@ -59,10 +59,61 @@ public extension String {
 
     /// converts a camelCased string to snake_cased
     func snakeCased() -> String {
-        let acronymPattern = "([A-Z]+)([A-Z][a-z]|[0-9])"
-        let normalPattern = "([a-z0-9])([A-Z])"
-        return self.processCamalCaseRegex(pattern: acronymPattern)?
-            .processCamalCaseRegex(pattern: normalPattern)?.lowercased() ?? self.lowercased()
+        enum Status {
+            case uppercase
+            case number
+            case lowercase
+        }
+
+        var status = Status.lowercase
+        var snakeCasedString = ""
+        var i = self.startIndex
+        while i < self.endIndex {
+            let nextIndex = self.index(i, offsetBy: 1)
+
+            if self[i].isUppercase {
+                switch status {
+                case .uppercase:
+                    if nextIndex < self.endIndex {
+                        if self[nextIndex].isLowercase {
+                            snakeCasedString.append("_")
+                        }
+                    }
+                case .number:
+                    if i != self.startIndex {
+                        snakeCasedString.append("_")
+                    }
+                case .lowercase:
+                    if i != self.startIndex {
+                        snakeCasedString.append("_")
+                    }
+                }
+                status = .uppercase
+                snakeCasedString.append(self[i].lowercased())
+            } else if self[i].isNumber {
+                switch status {
+                case .number:
+                    break
+                case .uppercase:
+                    if i != self.startIndex {
+                        snakeCasedString.append("_")
+                    }
+                case .lowercase:
+                    if i != self.startIndex {
+                        snakeCasedString.append("_")
+                    }
+                }
+                status = .number
+                snakeCasedString.append(self[i])
+            } else {
+                status = .lowercase
+                snakeCasedString.append(self[i])
+            }
+
+            i = nextIndex
+        }
+
+        return snakeCasedString
     }
 
     fileprivate func processCamalCaseRegex(pattern: String) -> String? {
