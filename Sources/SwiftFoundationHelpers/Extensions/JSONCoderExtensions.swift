@@ -87,6 +87,10 @@ public extension JSONDecoder {
             return CustomKeyDecodingStrategyHelpers
                 .convertKeys(keys, transform: CustomKeyDecodingStrategyHelpers.snakeCaseToCamelCaseWithCapitalizedIDTransformation)
         }
+        public static func snakeCaseToPascalCaseWithCapitalizedID(_ keys: [CodingKey]) -> CodingKey {
+            return CustomKeyDecodingStrategyHelpers
+                .convertKeys(keys, transform: CustomKeyDecodingStrategyHelpers.snakeCaseToPascalCaseWithCapitalizedIDTransformation)
+        }
     }
 
     struct CustomKeyDecodingStrategyHelpers {
