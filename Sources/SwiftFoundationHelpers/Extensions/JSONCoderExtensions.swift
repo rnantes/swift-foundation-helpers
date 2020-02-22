@@ -233,3 +233,63 @@ public extension JSONEncoder {
     }
 
 }
+
+// custom key encoding strategies
+public extension JSONEncoder {
+    struct CustomKeyEncodingStrategies {
+        public static func camelCaseToSnakeCaseWithCapitalizedID(_ keys: [CodingKey]) -> CodingKey {
+            return CustomKeyEncodingStrategyHelpers
+                .convertKeys(keys, transform: CustomKeyEncodingStrategyHelpers.camelCaseToSnakeCaseTransformation)
+        }
+    }
+
+    struct CustomKeyEncodingStrategyHelpers {
+        public static func convertKeys(_ keys: [CodingKey], customKeyMappings: [String: String]) -> CodingKey {
+            let key = keys.last!.stringValue
+            var newKeyStringValue = key
+            if let customKeyMapped = customKeyMappings[key] {
+                newKeyStringValue = customKeyMapped
+            }
+
+            return AnyKey(stringValue: newKeyStringValue)!
+        }
+
+        public static func convertKeys(_ keys: [CodingKey], customKeyMappings: [String: String], transform: (String) -> (String)) -> CodingKey {
+            let key = keys.last!.stringValue
+            var newKeyStringValue = key
+            if let customKeyMapped = customKeyMappings[key] {
+                newKeyStringValue = customKeyMapped
+            } else {
+                newKeyStringValue = transform(key)
+            }
+
+            return AnyKey(stringValue: newKeyStringValue)!
+        }
+
+        public static func convertKeys(_ keys: [CodingKey], transform: (String) -> (String)) -> CodingKey {
+            let key = keys.last!.stringValue
+            let newKeyStringValue = transform(key)
+
+            return AnyKey(stringValue: newKeyStringValue)!
+        }
+
+        public static func camelCaseToSnakeCaseTransformation(_ inputString :String) -> String {
+            return inputString.snakeCased()
+        }
+    }
+
+    struct AnyKey: CodingKey {
+        public var stringValue: String
+        public var intValue: Int?
+
+        public init?(stringValue: String) {
+            self.stringValue = stringValue
+            self.intValue = nil
+        }
+
+        public init?(intValue: Int) {
+            self.stringValue = String(intValue)
+            self.intValue = intValue
+        }
+    }
+}
