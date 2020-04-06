@@ -61,8 +61,8 @@ public extension String {
     func snakeCased() -> String {
         enum Status {
             case uppercase
-            case number
             case lowercase
+            case number
         }
 
         var status = Status.lowercase
@@ -79,32 +79,14 @@ public extension String {
                             snakeCasedString.append("_")
                         }
                     }
-                case .number:
-                    if i != self.startIndex {
-                        snakeCasedString.append("_")
-                    }
-                case .lowercase:
+                case .lowercase,
+                     .number:
                     if i != self.startIndex {
                         snakeCasedString.append("_")
                     }
                 }
                 status = .uppercase
                 snakeCasedString.append(self[i].lowercased())
-            } else if self[i].isNumber {
-                switch status {
-                case .number:
-                    break
-                case .uppercase:
-                    if i != self.startIndex {
-                        snakeCasedString.append("_")
-                    }
-                case .lowercase:
-                    if i != self.startIndex {
-                        snakeCasedString.append("_")
-                    }
-                }
-                status = .number
-                snakeCasedString.append(self[i])
             } else {
                 status = .lowercase
                 snakeCasedString.append(self[i])
@@ -114,6 +96,99 @@ public extension String {
         }
 
         return snakeCasedString
+    }
+
+    static func snakeCase(_ stringKey: String) -> String {
+        guard !stringKey.isEmpty else { return stringKey }
+        
+        enum Status {
+            case uppercase
+            case lowercase
+            case number
+        }
+
+        var status = Status.lowercase
+        var snakeCasedString = ""
+        var i = stringKey.startIndex
+        while i < stringKey.endIndex {
+            let nextIndex = stringKey.index(i, offsetBy: 1)
+
+            if stringKey[i].isUppercase {
+                switch status {
+                case .uppercase:
+                    if nextIndex < stringKey.endIndex {
+                        if stringKey[nextIndex].isLowercase {
+                            snakeCasedString.append("_")
+                        }
+                    }
+                case .lowercase,
+                     .number:
+                    if i != stringKey.startIndex {
+                        snakeCasedString.append("_")
+                    }
+                }
+                status = .uppercase
+                snakeCasedString.append(stringKey[i].lowercased())
+            } else {
+                status = .lowercase
+                snakeCasedString.append(stringKey[i])
+            }
+
+            i = nextIndex
+        }
+
+        return snakeCasedString
+    }
+
+
+    // source https://github.com/apple/swift/blob/master/stdlib/public/Darwin/Foundation/JSONEncoder.swift
+    static func convertToSnakeCase(_ stringKey: String) -> String {
+        guard !stringKey.isEmpty else { return stringKey }
+
+        var words : [Range<String.Index>] = []
+        // The general idea of this algorithm is to split words on transition from lower to upper case, then on transition of >1 upper case characters to lowercase
+        //
+        // myProperty -> my_property
+        // myURLProperty -> my_url_property
+        //
+        // We assume, per Swift naming conventions, that the first character of the key is lowercase.
+        var wordStart = stringKey.startIndex
+        var searchRange = stringKey.index(after: wordStart)..<stringKey.endIndex
+
+        // Find next uppercase character
+        while let upperCaseRange = stringKey.rangeOfCharacter(from: CharacterSet.uppercaseLetters, options: [], range: searchRange) {
+            let untilUpperCase = wordStart..<upperCaseRange.lowerBound
+            words.append(untilUpperCase)
+
+            // Find next lowercase character
+            searchRange = upperCaseRange.lowerBound..<searchRange.upperBound
+            guard let lowerCaseRange = stringKey.rangeOfCharacter(from: CharacterSet.lowercaseLetters, options: [], range: searchRange) else {
+                // There are no more lower case letters. Just end here.
+                wordStart = searchRange.lowerBound
+                break
+            }
+
+            // Is the next lowercase letter more than 1 after the uppercase? If so, we encountered a group of uppercase letters that we should treat as its own word
+            let nextCharacterAfterCapital = stringKey.index(after: upperCaseRange.lowerBound)
+            if lowerCaseRange.lowerBound == nextCharacterAfterCapital {
+                // The next character after capital is a lower case character and therefore not a word boundary.
+                // Continue searching for the next upper case for the boundary.
+                wordStart = upperCaseRange.lowerBound
+            } else {
+                // There was a range of >1 capital letters. Turn those into a word, stopping at the capital before the lower case character.
+                let beforeLowerIndex = stringKey.index(before: lowerCaseRange.lowerBound)
+                words.append(upperCaseRange.lowerBound..<beforeLowerIndex)
+
+                // Next word starts at the capital before the lowercase we just found
+                wordStart = beforeLowerIndex
+            }
+            searchRange = lowerCaseRange.upperBound..<searchRange.upperBound
+        }
+        words.append(wordStart..<searchRange.upperBound)
+        let result = words.map({ (range) in
+            return stringKey[range].lowercased()
+        }).joined(separator: "_")
+        return result
     }
 
     fileprivate func processCamalCaseRegex(pattern: String) -> String? {
