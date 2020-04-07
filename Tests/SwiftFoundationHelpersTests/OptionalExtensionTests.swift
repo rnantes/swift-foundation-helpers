@@ -8,8 +8,9 @@ import SwiftFoundationHelpers
 
 
 final class OptionalTests: XCTestCase {
-    func testUnwrapOrThrow() {
+    func testUnwrapOrThrow() throws {
         let urlOptional: URL? = URL.init(string: "https://twitter.com")?.appendingPathComponent("explore")
-        XCTAssertNoThrow(try urlOptional.unwrapOrThrow(error: FoundationHelperURLError.couldNotUnwrapURL))
+        let url = try XCTUnwrap(try urlOptional.unwrapOrThrow(error: FoundationHelperURLError.couldNotUnwrapURL))
+        XCTAssertEqual(url.absoluteString, "https://twitter.com/explore")
     }
 }
