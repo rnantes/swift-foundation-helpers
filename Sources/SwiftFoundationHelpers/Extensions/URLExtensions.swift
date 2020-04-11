@@ -8,6 +8,29 @@
 import Foundation
 
 extension URL {
+    /// returns a new url with the given  queryItems (query parameters) added
+    public func appendingQueryItems(queryItems: [URLQueryItem]) -> URL? {
+        guard var urlComponents = URLComponents.init(url: self, resolvingAgainstBaseURL: true) else {
+            return nil
+        }
+
+        // Create array of existing query items
+        var currentQueryItems: [URLQueryItem] = urlComponents.queryItems ??  []
+
+        // Append new query items to currentQueryItems
+        currentQueryItems.append(contentsOf: queryItems)
+
+        urlComponents.queryItems = currentQueryItems
+
+        // Returns the url from new url components
+        guard let newURL = urlComponents.url else {
+            return nil
+        }
+
+        return newURL
+    }
+
+
     public var addedToDirectoryDate: Date? {
         do {
             return try self.resourceValues(forKeys: [.addedToDirectoryDateKey]).addedToDirectoryDate
