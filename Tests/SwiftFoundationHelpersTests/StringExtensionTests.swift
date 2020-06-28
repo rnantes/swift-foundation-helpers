@@ -115,4 +115,22 @@ final class StringExtensionTests: XCTestCase {
         let string2 = "what__is__love"
         XCTAssertEqual(string2.camelCased(with: "_"), "whatIsLove")
     }
+
+    func testToKababCase() {
+        let string1 = "whatIsLove"
+        XCTAssertEqual(string1.kababCased(), "what-is-love")
+
+        let string2 = "2Fast2Furious"
+        XCTAssertEqual(string2.kababCased(), "2-fast-2-furious")
+
+        let string3 = "URLIsString"
+        XCTAssertEqual(string3.kababCased(), "url-is-string")
+
+        let string4 = "URL22IsString"
+        XCTAssertEqual(string4.kababCased(), "url-22-is-string")
+
+        let string5 = "22URLIsString"
+        XCTAssertEqual(string5.kababCased(), "22-url-is-string")
+    }
+
 }

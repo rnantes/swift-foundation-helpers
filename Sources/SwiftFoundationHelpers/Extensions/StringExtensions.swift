@@ -52,6 +52,80 @@ public extension String {
             .joined()
     }
 
+    /// converts string to kabab-case
+    func kababCased() -> String {
+        enum Status {
+            case uppercase
+            case lowercase
+            case number
+            case notAvailable
+        }
+
+        func getStatusOfChar(_ char: Character?) -> Status {
+            guard let char = char else {
+                return .notAvailable
+            }
+            if char.isNumber {
+                return Status.number
+            } else {
+                if char.isUppercase {
+                    return .uppercase
+                } else {
+                    return .lowercase
+                }
+            }
+        }
+
+        let seperator = "-"
+        var transformedString = "" // the kabab cased string
+
+        var prevStatus = Status.notAvailable
+        var curStatus = Status.notAvailable
+        var isInChain = false
+
+        var i = self.startIndex
+        while i < self.endIndex {
+            // prev char
+            prevStatus = curStatus
+            // cur char
+            let currentChar = self[i]
+            curStatus = getStatusOfChar(currentChar)
+            // next char
+            let nextIndex = self.index(i, offsetBy: 1)
+            var nextChar: Character? = nil
+            if (nextIndex < self.endIndex) {
+                nextChar = self[nextIndex]
+            }
+            let nextStatus = getStatusOfChar(nextChar)
+
+            switch curStatus {
+            case .uppercase:
+                if (prevStatus != .notAvailable && prevStatus != .uppercase) ||
+                    (prevStatus != .notAvailable && prevStatus == .uppercase && nextStatus == .lowercase) {
+                    transformedString.append(seperator)
+                }
+                isInChain = true
+                transformedString.append(currentChar.lowercased())
+            case .number:
+                if (prevStatus != .notAvailable && prevStatus != .number) ||
+                    (prevStatus != .notAvailable && prevStatus == .number && nextStatus == .lowercase) {
+                    transformedString.append(seperator)
+                }
+                isInChain = true
+                transformedString.append(currentChar)
+            case .lowercase:
+                isInChain = false
+                transformedString.append(currentChar)
+            case .notAvailable:
+                break
+            }
+
+            i = nextIndex
+        }
+
+        return transformedString
+    }
+
     /// converts string to PascalCase
     func pascalCased(with separator: Character) -> String {
         return self.camelCased(with: separator).capitalizingFirstLetter()
