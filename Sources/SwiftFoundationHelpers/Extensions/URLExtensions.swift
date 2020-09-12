@@ -30,6 +30,16 @@ extension URL {
         return newURL
     }
 
+    public func appendingURL(_ url: URL) -> URL {
+        self.appendingPathComponent(url.path)
+    }
+
+    public func appendingURLIfExists(_ url: URL?) -> URL {
+        if let path = url?.path {
+            return self.appendingPathComponent(path)
+        }
+        return self
+    }
 
     public var addedToDirectoryDate: Date? {
         do {

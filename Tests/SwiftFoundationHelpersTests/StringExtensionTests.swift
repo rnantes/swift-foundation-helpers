@@ -131,6 +131,6 @@ final class StringExtensionTests: XCTestCase {
 
         let string5 = "22URLIsString"
         XCTAssertEqual(string5.kababCased(), "22-url-is-string")
-    }
+    } 
 
 }
