@@ -8,6 +8,14 @@
 import Foundation
 
 extension URL {
+    /// initailized a url if the given string is not nil
+    init?(string stringOptional: String?) {
+        guard let string = stringOptional else {
+            return nil
+        }
+        self.init(string: string)
+    }
+
     /// returns a new url with the given  queryItems (query parameters) added
     public func appendingQueryItems(queryItems: [URLQueryItem]) -> URL? {
         guard var urlComponents = URLComponents.init(url: self, resolvingAgainstBaseURL: true) else {
