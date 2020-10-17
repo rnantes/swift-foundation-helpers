@@ -9,7 +9,7 @@ import Foundation
 
 extension URL {
     /// initailized a url if the given string is not nil
-    init?(string stringOptional: String?) {
+    public init?(string stringOptional: String?) {
         guard let string = stringOptional else {
             return nil
         }
