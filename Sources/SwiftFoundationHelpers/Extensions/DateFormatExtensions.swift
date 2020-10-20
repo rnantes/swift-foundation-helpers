@@ -29,6 +29,11 @@ public enum CustomDateFormat: String {
     ///
     case ISO8601Local = "yyyy-MM-dd'T'HH-mm-ss"
 
+    /// ISO8601 with the local time zone  `yyyy-MM-dd'T'HH:mm:ssZ`
+    ///
+    ///     DateFormatter.init(customDateFormat: .ISO8601Micros).date(from: "2020-01-20T20:30:59.636507")
+    ///
+    case ISO8601Micros = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
 
     case ISO8601CalendarDate = "yyyy-MM-dd"
     case ISO8601File = "yyyy-MM-dd'T'HH-mm-ssZ"
