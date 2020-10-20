@@ -8,6 +8,12 @@
 import Foundation
 
 public extension Date {
+    static func now() -> Date {
+        let date = Date.init()
+        let roundedTimeIntervalSince1970 = date.timeIntervalSince1970.rounded(toPlaces: 3)
+        return Date.init(timeIntervalSince1970: roundedTimeIntervalSince1970)
+    }
+
     func toString(withFormat customDateFormat: CustomDateFormat) -> String {
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
         return dateFormatter.string(from: self)
