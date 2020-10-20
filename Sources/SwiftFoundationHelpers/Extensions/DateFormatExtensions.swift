@@ -66,7 +66,7 @@ extension ISO8601DateFormatter {
 //}
 
 @available(OSX 10.13, *)
-extension Formatter {
+public extension Formatter {
     static let iso8601withFractionalSeconds: ISO8601DateFormatter  = ISO8601DateFormatter([.withInternetDateTime, .withFractionalSeconds])
 }
 
@@ -81,7 +81,7 @@ public extension String {
 }
 
 @available(OSX 10.13, *)
-extension JSONDecoder.DateDecodingStrategy {
+public extension JSONDecoder.DateDecodingStrategy {
     static let iso8601withFractionalSeconds = custom {
         let container = try $0.singleValueContainer()
         let string = try container.decode(String.self)
@@ -94,7 +94,7 @@ extension JSONDecoder.DateDecodingStrategy {
 }
 
 @available(OSX 10.13, *)
-extension JSONEncoder.DateEncodingStrategy {
+public extension JSONEncoder.DateEncodingStrategy {
     static let iso8601withFractionalSeconds = custom {
         var container = $1.singleValueContainer()
         try container.encode(Formatter.iso8601withFractionalSeconds.string(from: $0))

@@ -55,7 +55,7 @@ final class DateExtensionsTests: XCTestCase {
         print("++++++++++")
     }
 
-    func testISODateFormatter() {
+    func testISO8601DateFormatter() {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         formatter.timeZone = .current
@@ -69,5 +69,9 @@ final class DateExtensionsTests: XCTestCase {
         XCTAssertEqual(now.timeIntervalSince1970, read.timeIntervalSince1970)
         XCTAssertEqual(now.timeIntervalSinceReferenceDate, read.timeIntervalSinceReferenceDate)
         XCTAssertEqual(now, read)
+    }
+
+    func testISO8601JSONEncode() {
+
     }
 }
