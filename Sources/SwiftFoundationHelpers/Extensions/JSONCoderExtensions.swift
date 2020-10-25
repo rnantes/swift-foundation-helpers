@@ -16,11 +16,6 @@ public extension JSONDecoder {
             self.dateDecodingStrategy = dateDecodingStrategy
             self.keyDecodingStrategy = keyDecodingStrategy
         }
-
-        public init(dateDecodingStrategy: CustomDateFormat, keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys) {
-            self.dateDecodingStrategy = .formatted(dateDecodingStrategy.format())
-            self.keyDecodingStrategy = keyDecodingStrategy
-        }
     }
 
     convenience init(options: JSONDecoder.PublicOptions) {
@@ -31,9 +26,9 @@ public extension JSONDecoder {
 
 
     /// initialize JSONEncoder with a dateEncodingStrategy and prettyPrint option
-    convenience init(dateDecodingStrategy customDateFormat: CustomDateFormat) {
+    convenience init(dateDecodingStrategy: DateDecodingStrategy) {
         self.init()
-        self.dateDecodingStrategy = .formatted(customDateFormat.format())
+        self.dateDecodingStrategy = dateDecodingStrategy
     }
 
     /// decode with public options
@@ -47,9 +42,8 @@ public extension JSONDecoder {
         return try decoder.decode(type, from: data)
     }
 
-    func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy customDateFormat: CustomDateFormat) throws -> T where T: Decodable {
-        let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
-        self.dateDecodingStrategy = .formatted(dateFormatter)
+    func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy dateDecodingStrategy: DateDecodingStrategy) throws -> T where T: Decodable {
+        self.dateDecodingStrategy = dateDecodingStrategy
 
         return try self.decode(type, from: data)
     }
@@ -163,11 +157,6 @@ public extension JSONEncoder {
             self.keyEncodingStrategy = keyEncodingStrategy
             self.outputFormatting = outputFormatting
         }
-
-        public init(dateEncodingStrategy: CustomDateFormat, keyEncodingStrategy: JSONEncoder.KeyEncodingStrategy = .useDefaultKeys, outputFormatting: JSONEncoder.OutputFormatting = []) {
-            let dateEncodingStrategy = JSONEncoder.DateEncodingStrategy.formatted(dateEncodingStrategy.format())
-            self.init(dateEncodingStrategy: dateEncodingStrategy, keyEncodingStrategy: keyEncodingStrategy, outputFormatting: outputFormatting)
-        }
     }
 
 
@@ -179,19 +168,18 @@ public extension JSONEncoder {
         self.outputFormatting = options.outputFormatting
     }
 
-    convenience init(dateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) {
+    convenience init(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy, isPrettyPrinted: Bool = false) {
         self.init()
-        let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
-        self.dateEncodingStrategy = .formatted(dateFormatter)
+        self.dateEncodingStrategy = dateEncodingStrategy
 
         if isPrettyPrinted {
             self.outputFormatting = .prettyPrinted
         }
     }
+
     
-    func encode<T>(_ value: T, usingDateEncodingStrategy customDateFormat: CustomDateFormat, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
-        let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
-        self.dateEncodingStrategy = .formatted(dateFormatter)
+    func encode<T>(_ value: T, usingDateEncodingStrategy dateEncodingStrategy: JSONEncoder.DateEncodingStrategy, isPrettyPrinted: Bool = false) throws -> Data where T: Encodable {
+        self.dateEncodingStrategy = dateEncodingStrategy
 
         if (isPrettyPrinted) {
             self.outputFormatting = .prettyPrinted
