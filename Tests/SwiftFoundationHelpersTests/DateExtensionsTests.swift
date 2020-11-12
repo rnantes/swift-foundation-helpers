@@ -71,7 +71,4 @@ final class DateExtensionsTests: XCTestCase {
         XCTAssertEqual(now, read)
     }
 
-    func testISO8601JSONEncode() {
-
-    }
 }
