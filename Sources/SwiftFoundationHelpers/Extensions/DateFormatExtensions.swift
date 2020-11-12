@@ -65,22 +65,22 @@ extension ISO8601DateFormatter {
 //    }()
 //}
 
-@available(OSX 10.13, iOS 10.0, *)
+@available(OSX 10.13, iOS 11.0, *)
 public extension Formatter {
     static let iso8601withFractionalSeconds: ISO8601DateFormatter  = ISO8601DateFormatter([.withInternetDateTime, .withFractionalSeconds])
 }
 
-@available(OSX 10.13, iOS 10.0, *)
+@available(OSX 10.13, iOS 11.0, *)
 public extension Date {
     var iso8601withFractionalSeconds: String? { return Formatter.iso8601withFractionalSeconds.string(from: self) }
 }
 
-@available(OSX 10.13, iOS 10.0, *)
+@available(OSX 10.13, iOS 11.0, *)
 public extension String {
     var iso8601withFractionalSeconds: Date? { return Formatter.iso8601withFractionalSeconds.date(from: self) }
 }
 
-@available(OSX 10.13, iOS 10.0, *)
+@available(OSX 10.13, iOS 11.0, *)
 public extension JSONDecoder.DateDecodingStrategy {
     static let iso8601withFractionalSeconds = custom {
         let container = try $0.singleValueContainer()
@@ -93,7 +93,7 @@ public extension JSONDecoder.DateDecodingStrategy {
     }
 }
 
-@available(OSX 10.13, iOS 10.0, *)
+@available(OSX 10.13, iOS 11.0, *)
 public extension JSONEncoder.DateEncodingStrategy {
     static let iso8601withFractionalSeconds = custom {
         var container = $1.singleValueContainer()
