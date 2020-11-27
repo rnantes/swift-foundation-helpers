@@ -31,46 +31,22 @@ public extension JSONDecoder {
         self.dateDecodingStrategy = dateDecodingStrategy
     }
 
-    /// decode with public options
-    func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions = .init()) throws -> T where T: Decodable {
-        let decoder = JSONDecoder.init(options: options)
-        return try decoder.decode(type, from: data)
-    }
-
-    static func decode<T>(_ type: T.Type, from data: Data, options: JSONDecoder.PublicOptions = .init()) throws -> T where T: Decodable {
-        let decoder = JSONDecoder.init(options: options)
-        return try decoder.decode(type, from: data)
-    }
-
-    func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy dateDecodingStrategy: DateDecodingStrategy) throws -> T where T: Decodable {
-        self.dateDecodingStrategy = dateDecodingStrategy
-
-        return try self.decode(type, from: data)
-    }
-
-    func decode<T>(_ type: T.Type, from data: Data, usingDateDecodingStrategy dateFormat: String) throws -> T where T: Decodable {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
-        self.dateDecodingStrategy = .formatted(dateFormatter)
-
-        return try self.decode(type, from: data)
-    }
-
-
     /// reads json from file and decodes to value.
-    func decodeFromFile<T>(_ type: T.Type, fileURL: URL, options: JSONDecoder.PublicOptions = PublicOptions.init(), readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
+    func decodeFromFile<T>(_ type: T.Type, fileURL: URL, readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
         // open file
         let fileData = try Data.init(contentsOf: fileURL, options: readingOptions)
         // decode
-        return try self.decode(type, from: fileData, options: options)
+        return try self.decode(type, from: fileData)
     }
 
     /// reads json from file and decodes to value. If encoder is used more than once try using the non-static method.
     static func decodeFromFile<T>(_ type: T.Type, fileURL: URL, options: JSONDecoder.PublicOptions = PublicOptions.init(), readingOptions: Data.ReadingOptions = []) throws -> T where T: Decodable {
+        let decoder = JSONDecoder.init(options: options)
+
         // open file
         let fileData = try Data.init(contentsOf: fileURL, options: readingOptions)
         // decode
-        return try Self.decode(type, from: fileData, options: options)
+        return try decoder.decode(type, from: fileData)
     }
 }
 
@@ -213,7 +189,7 @@ public extension JSONEncoder {
     }
 
     /// Encode  value to json and write to file
-    func encodeToFile<T>(_ value: T, fileURL: URL, options: JSONEncoder.PublicOptions = PublicOptions.init(), writingOptions: Data.WritingOptions = []) throws where T: Encodable {
+    func encodeToFile<T>(_ value: T, fileURL: URL, writingOptions: Data.WritingOptions = []) throws where T: Encodable {
         // encode
         let data = try self.encode(value)
 
