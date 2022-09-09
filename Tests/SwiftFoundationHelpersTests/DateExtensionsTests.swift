@@ -10,6 +10,14 @@ import XCTest
 import SwiftFoundationHelpers
 
 final class DateExtensionsTests: XCTestCase {
+    func testDateNow() {
+        let dn = Date.now()
+        print("timeIntervalSinceReferenceDate-----")
+        print(dn.timeIntervalSinceReferenceDate)
+        
+        print("timeIntervalSince1970-----")
+        print(dn.timeIntervalSince1970)
+    }
     func testDateFormat() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
