@@ -8,10 +8,16 @@
 import Foundation
 
 public extension Date {
+    private static let sharedDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS Z"
+        return dateFormatter
+    }()
+    
     static func now() -> Date {
         let date = Date.init()
-        let roundedtimeIntervalSinceReferenceDate = date.timeIntervalSinceReferenceDate.rounded(toPlaces: 3)
-        return Date.init(timeIntervalSinceReferenceDate: roundedtimeIntervalSinceReferenceDate)
+        let dateString = Self.sharedDateFormatter.string(from: date)
+        return Self.sharedDateFormatter.date(from: dateString)!
     }
 
     func toString(withFormat customDateFormat: CustomDateFormat) -> String {
