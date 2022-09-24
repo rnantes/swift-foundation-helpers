@@ -8,7 +8,7 @@ import SwiftFoundationHelpers
 
 final class JSONEncoderExtensionsTests: XCTestCase {
     struct SomeTestStruct: Codable, Equatable {
-        var timestamp = Date.now()
+        var timestamp = Date.now
         var name = "Bob"
         var age = 12
     }

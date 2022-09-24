@@ -11,7 +11,7 @@ import SwiftFoundationHelpers
 
 final class DateExtensionsTests: XCTestCase {
     func testDateNow() {
-        let dn = Date.now()
+        let dn = Date.now
         print("timeIntervalSinceReferenceDate-----")
         print(dn.timeIntervalSinceReferenceDate)
         
@@ -69,7 +69,7 @@ final class DateExtensionsTests: XCTestCase {
         formatter.timeZone = .current
 
         //let now = Date.init()
-        let now = Date.now()
+        let now = Date.now
 
         let dateString = now.iso8601withFractionalSeconds!
         let read = dateString.iso8601withFractionalSeconds!

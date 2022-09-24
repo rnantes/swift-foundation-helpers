@@ -13,12 +13,6 @@ public extension Date {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS Z"
         return dateFormatter
     }()
-    
-    static func now() -> Date {
-        let date = Date.init()
-        let dateString = Self.sharedDateFormatter.string(from: date)
-        return Self.sharedDateFormatter.date(from: dateString)!
-    }
 
     func toString(withFormat customDateFormat: CustomDateFormat) -> String {
         let dateFormatter = DateFormatter.init(customDateFormat: customDateFormat)
