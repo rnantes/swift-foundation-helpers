@@ -7,6 +7,9 @@
 
 import Foundation
 import RegexBuilder
+#if os(Linux)
+import _StringProcessing
+#endif
 
 public struct RegexHelper {
 
