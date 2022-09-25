@@ -88,24 +88,25 @@ final class StringExtensionTests: XCTestCase {
 
     func testBenchmarkConvertToSnakeCase() {
         // custom
-        let startTime = CFAbsoluteTimeGetCurrent()
+        let startTime = Date.now
         for _ in 0..<10000 {
             for test in toSnakeCaseTests {
                 var _ = String.snakeCase(test.0)
             }
         }
-        let endTime = CFAbsoluteTimeGetCurrent()
-        print("Average Elapsed time 10000 runs: \( (endTime - startTime) / 10) seconds.")
+        let endTime = Date.now
+        let elapsed = endTime.timeIntervalSince(startTime)
+        print("Average Elapsed time 10000 runs: \(elapsed) seconds.")
 
         // stlib
-        let startTime2 = CFAbsoluteTimeGetCurrent()
+        let startTime2 = Date.now
         for _ in 0..<10000 {
             for test in toSnakeCaseTests {
                 var _ = String.convertToSnakeCase(test.0)
             }
         }
-        let endTime2 = CFAbsoluteTimeGetCurrent()
-        print("Average Elapsed time 10000 runs: \( (endTime2 - startTime2) / 10) seconds.")
+        let endTime2 = Date.now
+        print("Average Elapsed time 10000 runs: \(elapsed) seconds.")
     }
 
     func testToCamelCase() {
