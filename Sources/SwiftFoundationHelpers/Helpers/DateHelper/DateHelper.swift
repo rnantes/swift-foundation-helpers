@@ -25,7 +25,7 @@ public struct DateHelper {
     }
 
     /// yyyy-MM-dd'T'HH:mm
-    /// - Note: 2023-07-22
+    /// - EX: 2023-07-22
     public func isoYearMonthDay(from date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -34,7 +34,8 @@ public struct DateHelper {
     }
 
     /// yyyy-MM-dd'T'HH:mm
-    /// - Note: 2023-07-22T16:19
+    /// - EX: 2023-07-22T16:19
+    /// - EX: 2023-07-22T16:19
     public func date(isoDateTimeString: String, timeZone: TimeZone) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = timeZone
@@ -44,7 +45,8 @@ public struct DateHelper {
     }
 
     /// yyyy-MM-dd'T'HH:mm:ssZZZZZ
-    /// - Note: 2023-07-22T16:19:00-04:00
+    /// - EX: 2023-07-22T16:19:32-04:00
+    /// - EX: 2023-07-22T16:19:32Z
     public func date(isoDateTimeString: String) -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
@@ -63,6 +65,9 @@ public struct DateHelper {
         return dateFormatter.date(from: dateString)
     }
 
+    /// yyyy-MM-dd'T'HH:mmZ
+    /// - EX: 2023-07-22T16:19-04:00
+    /// - EX: 2023-07-22T16:19Z
     public func isoDateString(from inputDate: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmZ"
