@@ -53,6 +53,16 @@ public struct DateHelper {
 
         return dateFormatter.date(from: isoDateTimeString)
     }
+    
+    /// yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ
+    /// - EX: 2023-07-22T16:19:32.123-04:00
+    /// - EX: 2023-07-22T16:19:32.123Z
+    public func date(isoDateTime3FractionalSecondsString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+
+        return dateFormatter.date(from: isoDateTime3FractionalSecondsString)
+    }
 
     // isoDateString: yyyy-MM-dd
     // isoTimeString: HH:mm
